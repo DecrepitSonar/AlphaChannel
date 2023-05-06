@@ -1,52 +1,68 @@
-import React, {useState} from "react"
+import React, {SyntheticEvent, useState} from "react"
 import { FaApple,
             FaGooglePlusG,
             FaFacebookF } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { login, register } from "../../Data/Reducers/authSlice"
+import { auth, login, register, setForm, toggleLoginModal } from "../../Data/Reducers/authSlice"
 import { IoClose } from "react-icons/io5"
+import store, { RootState, useAppDispatch } from "../../Data/Store"
 
-const Login = (props ) => {
+const Login = () => {
 
-  const [selectedModal, setSelectedModal] =useState("login")
-  const isLoggedIn = useSelector( (state) => state.auth)
-
-  const errorStatus = isLoggedIn.error
+  const authState = useSelector( (state: RootState ) => state.auth)
+  const dispatch = useDispatch<LoginFormTypes>()
+  const errorStatus = authState.error
   
   return (
     <div className="login_container" 
-      style={props.modalOpen ?{"display" : "flex"} : {"display" : "none"}}
+      style={authState.loginModal.open ?{"display" : "flex"} : {"display" : "none"}}
     >
-      { selectedModal == "login" ? <LoginModal setSelectedModal={setSelectedModal} errorStatus={errorStatus}/> : <RegisterModal setSelectedModal={setSelectedModal} errorStatus={errorStatus} />}
-      <button className="closeButton" onClick={() => props.OpenModal(false)}><IoClose/></button>
+      { authState.loginModal.form == "login" ? <LoginModal errorStatus={errorStatus}/> 
+      : <RegisterModal errorStatus={errorStatus} />}
     </div>
   )
 }
 
-const LoginModal = (props) => {
-  const [authForm, setForm] = useState({})
-  const dispatch = useDispatch()
+type LoginFormTypes = {
+  email: string,
+  password: string,
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    dispatch(login(authForm))
-  }
+const LoginModal = (props: any) => {
+  const dispatch = useAppDispatch()
+
 
   return(
     <div className="modal">
     <div className="form_container">
     <h1> Login </h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
+
+      <form 
+        onSubmit={(e: React.SyntheticEvent) => {
+          e.preventDefault();
+          const target = e.target as typeof e.target & {
+            email: { value: string };
+            password: { value: string };
+          };
+          
+          const formData = {
+            email: target.email.value, 
+            password: target.password.value
+          }
+
+          dispatch(login(formData))
+        }}  
+      >
         <input 
           type="email" 
+          name="email"
           placeholder="Email"
-          onChange={(e) => setForm({...authForm, email: e.target.value })}
         />
         <input 
           type="password" 
+          name="password"
           placeholder="Password "
-          onChange={(e) => setForm({...authForm, password: e.target.value })}
         />
         <Link to="reset">Forgot password?</Link>
         <button>Sign in </button>
@@ -59,7 +75,7 @@ const LoginModal = (props) => {
       <div className="Other_auth_options">
         <div className="register_button_container"><div className="register_button"><FaApple/><button> Login With Apple </button></div></div>
         <div className="register_button_container"><div className="register_button"><FaGooglePlusG/><button>Login With Google </button></div></div>
-        <div className="register_button_container register register_button"  onClick={() => props.setSelectedModal("register")}><button>Sign Up </button></div>
+        <div className="register_button_container register register_button"  onClick={() => dispatch(setForm("register"))}><button>Sign Up </button></div>
       </div>
     </div>
     
@@ -67,23 +83,24 @@ const LoginModal = (props) => {
   )
 }
 
-const RegisterModal = (props) => {
+const RegisterModal = (props: any) => {
 
-  const [authData, setAuthData ] = useState({})
+  const [authData, setAuthData ] = useState<any>({})
   const [passwordValidation, setPasswordValidation] = useState("")
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<any>()
 
-  const handleChange = e => {
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+
     setAuthData({
         ...authData,
-        [e.target.name]: e.target.value
+        [e.currentTarget.name]: e.currentTarget.value
       })
   }
 
 
   
-  const handleAuth =async ( e) => {
+  const handleSubmit =async ( e: React.SyntheticEvent) => {
     e.preventDefault()
 
     try{ 
@@ -106,8 +123,8 @@ const RegisterModal = (props) => {
   return(
     <div className="modal">
         <div className="form_container">
-        <h1> Login </h1>
-        <form>
+        <h1> Sign Up </h1>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <input 
             type="text" 
             required={true}
@@ -143,7 +160,7 @@ const RegisterModal = (props) => {
           <div className="Other_auth_options">
             <div className="register_button_container"><div className="register_button"><FaApple/><button> Login With Apple </button></div></div>
             <div className="register_button_container"><div className="register_button"><FaGooglePlusG/><button>Login With Google </button></div></div>
-            <div className="register_button_container register register_button"  onClick={() => props.setSelectedModal("login")}><button>Sign In </button></div>
+            <div className="register_button_container register register_button"  onClick={() =>  dispatch(setForm("login"))}><button>Sign In </button></div>
           </div>
         </div>
 

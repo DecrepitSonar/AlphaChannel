@@ -1,15 +1,21 @@
 @import "./navigations.scss";
 @import "./Profile.scss";
-
+@import "./Login.scss";
 #root {
-  max-width: 1280px;
+  // max-width: 1280px;
   margin: 0 auto;
-  text-align: center;
-  color: #ddd
+  // text-align: center;
+  color: #ddd;
+
+  --color-neutral: #1F1F1F;
+  --color-primary: #212129;
+  --color-secondary: #816797;
+  --color-tertiary: #cccc98;
+  --text-color: #f3f3f3;
 }
 
 .App {
-  max-width: 1280px;
+  // max-width: 1280px;
   margin: 0 auto;
   padding: 0rem;
   text-align: center;
@@ -17,8 +23,14 @@
   overflow: hidden;
   flex-direction: row;
 }
+body{
+  overflow: hidden;
+}
 main{
   position: relative;
+  width: calc(100vw - 63.805px);
+  height: 100vh;
+  overflow: scroll;
 }
 header {
   height: 100%;
@@ -95,6 +107,9 @@ section {
   background-color: #333;
   border-radius: 10px;
   margin-bottom: 5px;
+  background-image: url(attr(data-src));
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .videoCardHeader {
   width: 100%;
@@ -168,7 +183,7 @@ section {
   display: flex;
   flex-direction: row;
   grid-auto-flow: column;
-  background-color: rgba(0, 0, 0, 0.09);
+  background-color: rgba(0, 0, 0, 0.07);
   border-radius: 10px;
   margin: 10px 0;
   position: relative;
@@ -179,13 +194,34 @@ section {
   position: absolute;
   right: 20px;
   top: 20px;
+  color: #ddd;
+  background-color: transparent;
+}
+
+.searchList_videoContainer button:hover,
+.searchList_channelItemContainer button:hover {
+  color: #cccc98;
+}
+
+.SearchList_header  > span{
+  font-size: .7rem;
 }
 .searchList_videoItem {
   height: 110px;
   width: 210px;
-  background-color: #333;
+  background-color: #ffffff;
   border-radius: 10px;
   margin: auto 0;
+}
+.SearchPage{
+  padding-top: 50px;
+  position: absolute;
+  left: 0; 
+  right: 0;
+  bottom: 0; 
+  top: 0;
+  background-color: #212129;
+
 }
 .SearchList_videoHeader {
   display: flex;
@@ -195,7 +231,7 @@ section {
   align-items: start;
 }
 .SearchList_header {
-  display: flex;
+  // display: flex;
   flex-direction: column;
   text-align: left;
   padding: 10px 20px;
@@ -228,12 +264,12 @@ section {
   width: 120px;
   margin: 0 45px;
   border-radius: 75px;
-  background-color: #333;
+  background-color: #333333;
 }
 
 //Video
 .video {
-  width: 100%;
+  // width: 100%;/
   display: flex;
 }
 
@@ -242,9 +278,9 @@ section {
   width: auto;
 }
 .videoSection_header {
-  height: 550px;
+  height: 600px;
   width: 650px;
-  background-image: url('./assets/channels4_profile.jpg');
+  background-image: url('../assets/channels4_profile.jpg');
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -335,25 +371,25 @@ section {
 }
 
 .sideSection {
-  padding-top: 60px;
+  padding-top: 90px;
 }
 .recommendations {
-  width: 300px;
+  // width: 300px;
   text-align: start;
 }
 .recommendations_videoCollection {
-  height: 100px;
+  // height: 100px;
 }
 .recommendations_videoCollection_video_container {
   height: inherit;
   display: flex;
-  margin: 5pxd 0;
+  margin: 5px 0;
 }
 .recommendations_videoCollection_video {
-  height: 90px;
-  width: 150px;
+  height: 100px;
+  width: 180px;
   background-color: #333;
-  border-radius: 10px;
+  border-radius: 5px;
   margin: auto;
 }
 .recommendations_videoCollections_video_details {

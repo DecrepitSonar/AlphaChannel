@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import image  from "../assets/unnamed-20-e1654195589670-1280x720.jpg";
 
 const Watch = () => {
+
     return (
         <div>
              <header>
@@ -20,8 +21,9 @@ const Watch = () => {
                         </div>
                         <div className="sectionCollection">
 
-                            <div className="videoCardContainer">
-                                <div className="videoCard"></div>
+
+                                <div className="videoCardContainer">
+                                <div className="videoCard"/>
                                 <div className="videoCardHeader">
                                     <div className="headerAvi"/>
                                     <span>Artist</span>
@@ -31,7 +33,7 @@ const Watch = () => {
                                 </span>
                             </div>
 
-                                <div className="videoCardContainer">
+                            <div className="videoCardContainer">
                                 <div className="videoCard"></div>
                                 <div className="videoCardHeader">
                                     <div className="headerAvi"/>
